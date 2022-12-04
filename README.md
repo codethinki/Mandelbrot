@@ -8,6 +8,9 @@ Controls:
 
 :)
 
+# precompiled Binarys
+* ensure .exe and shaders dir are in the same folder
+
 # Repo cloning
 
 Requirements:
