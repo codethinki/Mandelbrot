@@ -6,10 +6,11 @@ Controls:
 * scroll (zoom +/-)
 * left/right mouse (more/less detail)
 
-:)
+Precompiled Binarys:
+* ensure .exe and shaders folder are in the same dir
+* Lag and blurry image are float/double overflow problems i'll fix that at some point
 
-# precompiled Binarys
-* ensure .exe and shaders dir are in the same folder
+:)
 
 # Repo cloning
 
