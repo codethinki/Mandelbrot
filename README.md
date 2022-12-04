@@ -8,8 +8,13 @@ Controls:
 
 :)
 
-# Important
-Repository cloning
+# Repo cloning
+
+Requirements:
+* Vulkan sdk
+* glm
+* GLFW3
+* C++ 20 or above (may be lower didn't test that)
 
 Hardcoded paths to change:
 * in the Vert_Frag_Compiler.bat -> path to local glsl compiler
