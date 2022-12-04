@@ -151,7 +151,7 @@ namespace hlc {
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 		deviceFeatures.samplerAnisotropy = VK_TRUE;
 		deviceFeatures.shaderFloat64 = VK_TRUE;
-		if (deviceFeatureSupport(physicalDevice, deviceFeatures)) {
+		if (!deviceFeatureSupport(physicalDevice, deviceFeatures)) {
 			if (messageBox(L"GPU warning", L"Your GPU doesn't support\nwide shader float", MB_ICONWARNING | MB_OKCANCEL) != IDOK) exit(EXIT_FAILURE);
 			deviceFeatures.shaderFloat64 = VK_TRUE;
 			wideShader = false;
