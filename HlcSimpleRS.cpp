@@ -53,7 +53,7 @@ namespace hlc {
 
 	void SimpleRenderSystem::renderSquare(const VkCommandBuffer command_buffer, const HlcGameObject& game_object) const {
 		hlcPipeline->bind(command_buffer);
-
+		
 		const SimplePushConstantData push{ glm::vec3(windowSize.width, windowSize.height, detail), extent };
 			vkCmdPushConstants(command_buffer, pipelineLayout,
 							   VK_SHADER_STAGE_FRAGMENT_BIT, 0,

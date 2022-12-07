@@ -9,12 +9,12 @@ namespace hlc {
 
 	std::unique_ptr<HlcModel> createSquareModel(HlcDevice& device, const glm::vec2 position, const glm::vec2 extent) {
 		std::vector<HlcModel::Vertex> vertices = {
-			{{0.f, 0.f}},
-			{{extent.x, extent.y}},
-			{{0.f, extent.y}},
-			{{0.f, 0.f}},
-			{{extent.x, 0.f}},
-			{{extent.x, extent.y}},
+			{{0.f, 0.f}, {1.f, 0.f, 0.f}},
+			{{extent.x, extent.y},{1.f, 1.f, 0.f}},
+			{{0.f, extent.y}, {0.f, 1.f, 0.f}},
+			{{0.f, 0.f}, {1.f, 0.f, 0.f}},
+			{{extent.x, 0.f}, {0.f, 0.f, 1.f}},
+			{{extent.x, extent.y}, {1.f, 1.f, 0.f}},
 		};
 		for (auto& v : vertices) {
 			v.position += position;
@@ -33,7 +33,8 @@ namespace hlc {
 
 		SimpleRenderSystem simpleRenderSystem{ hlcDevice, hlcRenderer.getSwapchainRenderPass(), hlcDevice.wideShader };
 
-		double zoomSpeed = 0.03, moveSpeed = 0.05, zoom = 1, zoomY = 0, zoomX = 0;
+		constexpr double zoomSpeed = 0.03, moveSpeed = 0.05;
+		double zoom = 1, zoomY = 0, zoomX = 0;
 		while (!hlcWindow.shouldClose()) {
 			glfwPollEvents();
 			const auto commandBuffer = hlcRenderer.beginFrame();
@@ -44,6 +45,9 @@ namespace hlc {
 				if (hlcWindow.a) zoomX -= moveSpeed / zoom;
 				if (hlcWindow.d) zoomX += moveSpeed / zoom;
 
+				simpleRenderSystem.windowSize = hlcWindow.getExtent();
+				const double ratio =  static_cast<double>(simpleRenderSystem.windowSize.width) / simpleRenderSystem.windowSize.height;
+
 				if(hlcWindow.mRight) simpleRenderSystem.detail > 1 ? simpleRenderSystem.detail-- : 0;
 				if(hlcWindow.mLeft) simpleRenderSystem.detail++;
 
@@ -52,10 +56,7 @@ namespace hlc {
 					hlcWindow.yScroll = 0;
 				}
 
-				simpleRenderSystem.extent = glm::vec4(zoomX - 2 / zoom, zoomX + 2 / zoom, zoomY - 2 / zoom, zoomY + 2 / zoom);
-				
-				simpleRenderSystem.windowSize.height = hlcWindow.getExtent().height;
-				simpleRenderSystem.windowSize.width = hlcWindow.getExtent().height;
+				simpleRenderSystem.extent = glm::vec4(zoomX - 2 * ratio / zoom, zoomX + 2 * ratio / zoom, zoomY - 2 / zoom, zoomY + 2 / zoom);
 
 				//render
 				hlcRenderer.beginSwapchainRenderPass(commandBuffer);

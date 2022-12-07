@@ -9,11 +9,17 @@ using namespace std;
 using namespace hlc;
 
 int compileShaders() {
+	wstring frag32 = wreadFile(L"shaders/shader.frag", false);
+	while(frag32.find(L"double") != wstring::npos) frag32.replace(frag32.find(L"double"), 6, L"float");
+	wofstream file("shaders/shader32.frag");
+	file.write(frag32.c_str(), frag32.size());
+	file.close();
+
 	const future<int> result = async(hiddenCmd, "call \"Vert_Frag_Compiler.bat\"", R"(E:\Visual Studio\repos\Mandelbrot\Mandelbrot\shaders)");
 	result.wait();
 	wstring vert = wreadFile(L"shaders/vert.txt", false);
 	wstring frag = wreadFile(L"shaders/frag.txt", false);
-	wstring frag32 = wreadFile(L"shaders/frag32.txt", false);
+	frag32 = wreadFile(L"shaders/frag32.txt", false);
 	if (!vert.empty() || !frag.empty() || !frag32.empty()) {
 		if (!vert.empty()) {
 			wcout << L"Vertex shader error in line " << vert.substr(vert.find(L':') + 1, vert.find(L':', vert.find(L':') + 1) - vert.find(L':')) << endl;

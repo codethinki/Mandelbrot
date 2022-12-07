@@ -25,8 +25,8 @@ namespace hlc {
 		MyApp& operator=(const MyApp&) = delete;
 		void run();
 	private:
-
-		HlcWindow hlcWindow{ WIDTH, HEIGHT, "Hello" };
+		inline static const string WINDOW_NAME = "Mandelbrot Set";
+		HlcWindow hlcWindow{ WIDTH, HEIGHT, WINDOW_NAME };
 		HlcDevice hlcDevice{ hlcWindow };
 		HlcRenderer hlcRenderer{ hlcWindow, hlcDevice };
 		vector<HlcGameObject> hlcGameObjects;
